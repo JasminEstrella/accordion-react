@@ -184,35 +184,21 @@ export default function App() {
 }
 
 function Accordion({data}) {
-
-  const [curOpen, setCurOpen] = useState(null);
-
   return (
     <div className="accordion">
       {
-        data.map((element, i) => <AccordionItem curOpen={curOpen} onOpen={setCurOpen} key={i} num={i} title={element.title}>{element.text}</AccordionItem>)
+        data.map((element, i) => <AccordionItem key={i} num={i} title={element.title} text={element.text} />)
       }
-
-      <AccordionItem curOpen={curOpen} onOpen={setCurOpen} key={50} num={50} title='What is a children prop?'>
-        <p>The children prop in React allows you to pass components or elements inside another component, like nesting. It helps to create flexible and reusable components.</p>
-        <ul>
-          <li>Basic Usage: The children prop allows you to nest elements inside a parent component.</li>
-          <li>Rendering Nested Components: You can pass multiple child components to a parent component.</li>
-          <li>Accessing children: The children prop is accessed via props.children.</li>
-        </ul>
-        <br />
-        <p>Understanding how to use the children prop effectively allows you to create more flexible and reusable React components.</p>
-      </AccordionItem>
     </div>
   );
 }
 
-function AccordionItem({num, title, curOpen, onOpen, children}) {
-  const isOpen = num === curOpen;
+function AccordionItem({num, title, text}) {
+  const [isOpen, setIsOpen] = useState(false);
   let itemNum = num + 1;
 
   function handleToggle() {
-    onOpen(isOpen ? null: num);
+    setIsOpen((isOpen) => !isOpen)
   }
 
   return (
@@ -222,7 +208,7 @@ function AccordionItem({num, title, curOpen, onOpen, children}) {
       <p className="icon">{ isOpen ? '-' : '+'}</p>
 
       { isOpen && (
-        <div className="content-box">{children}</div>
+        <div className="content-box">{text}</div>
       )}
     </div>
   )
